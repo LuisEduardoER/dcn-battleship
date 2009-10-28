@@ -26,20 +26,21 @@ public class ServerProxy implements UIListener {
 	}
 
 
-	public void attackSquare(int x, int y) {
+	public void sendAttack(int x, int y) throws IOException {
 		out.writeByte('a'); //Attack Opcode 'a'
 		out.writeInt(x);
 		out.writeInt(y);
 		out.flush();
 	}
 
-	public void sendResult(boolean hit) {
+	public void sendResult(boolean hit) throws IOException {
 		out.writeByte('r'); //Result Opcode 'r'
 		if (hit) {
 			out.writeInt(1);
 		} else {
 			out.writeInt(0);
 		}
+		out.flush();
 	}
 
 	public void start() {
@@ -61,14 +62,17 @@ public class ServerProxy implements UIListener {
 					char code = msg.charAt(0);
 					switch (code) {
 						case ('a'):
+							int x=0;
+							int y=0;
 							/*
 								extract x and y from msg
 							*/
-							listener.attackSquare(x,y);
+							listener.processAttack(x,y);
 							break;
 						case ('r'):
+							boolean hit=false;
 							/*
-								extract result from msg
+								extract hit result from msg
 							*/
 							listener.processResult(hit);
 							break;

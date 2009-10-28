@@ -1,4 +1,4 @@
-import java.awt.*;
+//import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -42,19 +42,19 @@ public class BattleshipUI {
 	private synchronized void attackSquare(int x, int y) {
 		try {
 			for(UIListener listener : listeners) {
-				listener.attackSquare(x,y);
+				listener.sendAttack(x,y);
 			}
 		} catch (IOException exc) {}
 	}
 
 	private synchronized void exitClient() {
-		try {
+		//try {
 			for (UIListener listener : listeners) {
 				/*
 					Handle client exit
 				*/
 			}
-		} catch (IOException exc) {}
+		//} catch (IOException exc) {}
 	}
 
 }
