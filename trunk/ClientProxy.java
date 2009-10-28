@@ -13,8 +13,12 @@ public class ClientProxy extends Thread implements ServerListener {
 
 	public ClientProxy(Socket socket) {
 		this.socket = socket;
-		input = new DataInputStream(socket.getInputStream());
-		output = new DataOutputStream(socket.getOutputStream());
+		try {
+			input = new DataInputStream(socket.getInputStream());
+			output = new DataOutputStream(socket.getOutputStream());
+		} catch (IOException e) {
+			System.err.println("Error creating input and output streams");
+		}
 	}
 
 	public void setListener(ServerListener listener) {
@@ -24,11 +28,16 @@ public class ClientProxy extends Thread implements ServerListener {
 
 	public void attackSquare(int x, int y) throws IOException {
 		// my partner wants to attack my square at (x,y)
-
+		output.writeChar('a');
+		output.writeInt(x);
+		output.writeInt(y);
+		output.flush();
 	}
 
 	public void sendResult(boolean result) throws IOException {
-
+		output.writeChar('r');
+		output.writeBoolean(result);
+		output.flush();
 	}
 
 	public void run() {
@@ -36,7 +45,19 @@ public class ClientProxy extends Thread implements ServerListener {
 			for (;;) {
 			// when you recieve an attack command, call attackSquare on the listener
 			// your partner executes attackSquare, and calls sendResult on us.
-
+				char opcode = input.readChar();
+				switch (opcode) {
+					case 'a':
+						System.out.println("Recieved attack code");
+						int x = input.readInt();
+						int y = input.readInt();
+						listener.attackSquare(x, y);
+						break;
+					case 'r':
+						boolean r = input.readBoolean();
+						listener.sendResult(r);
+						break;
+				}
 			}
 		} catch (EOFException e) {
 		} catch (IOException e) {
