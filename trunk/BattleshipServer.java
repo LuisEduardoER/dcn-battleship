@@ -21,21 +21,19 @@ public class BattleshipServer {
 	}
 
 	public BattleshipServer(int port) {
-		Stack<ServerListener> waiting = new Stack<ServerListener>();
+		Stack<ClientProxy> waiting = new Stack<ClientProxy>();
 		try {
 			serversocket = new ServerSocket(port);
-		} catch (IOException e) {
-			System.err.println("Error creating server socket");
-		}
-		for (;;) {
-			Socket socket = serversocket.accept();
-			if (waiting.empty())
-				waiting.push(new ClientProxy(socket));
-			else {
-				ClientProxy newGuy = new ClientProxy(socket);
-				waiting.peek().setListener(newGuy);
-				newGuy.setListener(waiting.pop());
+			for (;;) {
+				Socket socket = serversocket.accept();
+				if (waiting.empty())
+					waiting.push(new ClientProxy(socket));
+				else {
+					ClientProxy newGuy = new ClientProxy(socket);
+					waiting.peek().setListener(newGuy);
+					newGuy.setListener(waiting.pop());
+				}
 			}
-		}
+		} catch (IOException e) {}
 	}
 }
