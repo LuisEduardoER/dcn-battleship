@@ -1,3 +1,4 @@
+import java.io.IOException;
 public class BattleshipModel implements ModelListener {
 	private UIListener listener;
 
@@ -36,7 +37,7 @@ public class BattleshipModel implements ModelListener {
 	}
 
 
-	public void attackSquare(int x, int y) {
+	public void processAttack(int x, int y) {
 		boolean hit = false;
 		// check myBoard for hit at x,y
 		// update board with results
@@ -46,13 +47,18 @@ public class BattleshipModel implements ModelListener {
 		} else {
 			myBoard[x][y] = '+';
 		}
-		listener.sendResult(hit);
+		try {
+			listener.sendResult(hit);
+		} catch (IOException E) {}
+		/*
+			Update GUI with new board
+		*/
 	}
 
 	public void processResult(boolean hit) {
 		/*
 			update enemyBoard with result from last attack
-			don't send anything back out
+			update GUI with new board
 		*/
 	}
 
