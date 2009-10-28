@@ -28,7 +28,6 @@ public class BattleshipUI {
 
 		attackButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//get x and y from GUI
 				int x = Integer.parseInt(field1.getText());
 				int y = Integer.parseInt(field2.getText());
 				attackSquare(x,y);
@@ -59,13 +58,11 @@ public class BattleshipUI {
 	}
 
 	private synchronized void exitClient() {
-		//try {
+		try {
 			for (UIListener listener : listeners) {
-				/*
-					Handle client exit
-				*/
+				listener.stop();
 			}
-		//} catch (IOException exc) {}
+		} catch (IOException exc) {}
 	}
 
 }
