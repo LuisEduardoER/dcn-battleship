@@ -11,10 +11,10 @@ public class ServerProxy implements UIListener {
 	private DataInputStream in;
 	private ModelListener listener;
 
-	public ServerProxy (Socket socket) throws IOException {
+	public ServerProxy(Socket socket) throws IOException {
 		this.socket = socket;
-		out = new DataOutputStream (socket.getOutputStream());
-		in = new DataInputStream (socket.getInputStream());
+		out = new DataOutputStream(socket.getOutputStream());
+		in = new DataInputStream(socket.getInputStream());
 	}
 
 	public void setListener (ModelListener listener) {
@@ -25,22 +25,59 @@ public class ServerProxy implements UIListener {
 		this.listener = listener;
 	}
 
+
+	public void attackSquare(int x, int y) {
+		out.writeByte('a'); //Attack Opcode 'a'
+		out.writeInt(x);
+		out.writeInt(y);
+		out.flush();
+	}
+
+	public void sendResult(boolean hit) {
+		out.writeByte('r'); //Result Opcode 'r'
+		if (hit) {
+			out.writeInt(1);
+		} else {
+			out.writeInt(0);
+		}
+	}
+
 	public void start() {
-		new Reader() .start();
+		new Reader().start();
 	}
 
 	public void stop() {
 		try { socket.shutdownInput(); } catch (IOException exc) {}
 	}
 
-
 	private class Reader extends Thread {
 		public void run() {
 			try {
 				for (;;) {
-					byte opcode = dis.readByte();
-					// handle incoming messages here
-					// call ModelListener functions
+					String msg = in.readLine();
+					System.out.println("Reader received message: " + msg);
+
+					// handle incoming messages
+					char code = msg.charAt(0);
+					switch (code) {
+						case ('a'):
+							/*
+								extract x and y from msg
+							*/
+							listener.attackSquare(x,y);
+							break;
+						case ('r'):
+							/*
+								extract result from msg
+							*/
+							listener.processResult(hit);
+							break;
+						default:
+							System.err.println("Reader received bad code.");
+							break;
+					}
+
+
 				}
 			} catch (EOFException exc) {
 			} catch (IOException exc) {
