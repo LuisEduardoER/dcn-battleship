@@ -13,19 +13,21 @@ public class BattleshipModel implements ModelListener {
 	
 	public BattleshipModel() {
 		myBoard = new char[10][10];
-
-		/*
-			fill myBoard with pieces (randomly or user-generated)
-		*/
-
-		
 		enemyBoard = new char[10][10];
 		//fill enemyBoard with empty water
 		for (int x=0; x<10; x++) {
 			for (int y=0; y<10; y++) {
 				enemyBoard[x][y] = '.';
+				myBoard[x][y] = '.';
 			}
 		}
+
+		/*
+			fill myBoard with pieces (randomly or user-generated)
+		*/
+		myBoard[1][1] = 'O';
+		myBoard[1][2] = 'O';
+
 	}
 
 	public void setListener (UIListener listener) {
@@ -48,6 +50,7 @@ public class BattleshipModel implements ModelListener {
 			myBoard[x][y] = '+';
 		}
 		try {
+			System.out.println("Model computes: " + hit);
 			listener.sendResult(hit);
 		} catch (IOException E) {}
 		/*

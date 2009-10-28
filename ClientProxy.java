@@ -55,6 +55,7 @@ public class ClientProxy extends Thread implements ServerListener {
 						break;
 					case 'r':
 						boolean r = input.readBoolean();
+						System.out.println("Recieved result: " + r);
 						listener.sendResult(r);
 						break;
 				}
