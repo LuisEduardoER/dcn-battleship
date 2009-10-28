@@ -1,8 +1,12 @@
+import java.io.IOException;
 import java.lang.NumberFormatException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Stack;
 
 public class BattleshipServer {
+
+	private ServerSocket serversocket;
 
 	public static void main(String[] args) {
 		if (args.length == 1) {
@@ -17,14 +21,21 @@ public class BattleshipServer {
 	}
 
 	public BattleshipServer(int port) {
+		Stack<ServerListener> waiting = new Stack<ServerListener>();
 		try {
-			ServerSocket serversocket = new ServerSocket(port);
+			serversocket = new ServerSocket(port);
 		} catch (IOException e) {
 			System.err.println("Error creating server socket");
 		}
 		for (;;) {
 			Socket socket = serversocket.accept();
-			new ClientProxy(socket).start();
+			if (waiting.empty())
+				waiting.push(new ClientProxy(socket));
+			else {
+				ClientProxy newGuy = new ClientProxy(socket);
+				waiting.peek().setListener(newGuy);
+				newGuy.setListener(waiting.pop());
+			}
 		}
 	}
 }
