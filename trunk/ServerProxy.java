@@ -27,19 +27,16 @@ public class ServerProxy implements UIListener {
 
 
 	public void sendAttack(int x, int y) throws IOException {
-		out.writeByte('a'); //Attack Opcode 'a'
+		out.writeChar('a'); //Attack Opcode 'a'
 		out.writeInt(x);
 		out.writeInt(y);
 		out.flush();
 	}
 
 	public void sendResult(boolean hit) throws IOException {
-		out.writeByte('r'); //Result Opcode 'r'
-		if (hit) {
-			out.writeInt(1);
-		} else {
-			out.writeInt(0);
-		}
+		System.out.println("ServerProxy sending result: "+hit);
+		out.writeChar('r'); //Result Opcode 'r'
+		out.writeBoolean(hit);
 		out.flush();
 	}
 
@@ -55,25 +52,16 @@ public class ServerProxy implements UIListener {
 		public void run() {
 			try {
 				for (;;) {
-					String msg = in.readLine();
-					System.out.println("Reader received message: " + msg);
-
-					// handle incoming messages
-					char code = msg.charAt(0);
+					char code = in.readChar();
 					switch (code) {
 						case ('a'):
-							int x=0;
-							int y=0;
-							/*
-								extract x and y from msg
-							*/
+							int x=in.readInt();
+							int y=in.readInt();
+							System.out.println("x, y: " + x +", " + y);
 							listener.processAttack(x,y);
 							break;
 						case ('r'):
-							boolean hit=false;
-							/*
-								extract hit result from msg
-							*/
+							boolean hit=in.readBoolean();
 							listener.processResult(hit);
 							break;
 						default:

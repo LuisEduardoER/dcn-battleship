@@ -8,21 +8,32 @@ import java.io.IOException;
 public class BattleshipUI {
 	private List<UIListener> listeners = new ArrayList<UIListener>();
 	private JFrame frame;
-
+	private JTextField field1;
+	private JTextField field2;
 	public BattleshipUI() {
 		frame = new JFrame("Battleship");
 		/*
 			Build GUI here
 		*/
+		
+		JPanel panel = new JPanel();
+		frame.add(panel);
+		field1 = new JTextField(20);
+		field2 = new JTextField(20);
+		panel.add(field1);
+		panel.add(field2);
+		JButton attackButton = new JButton("Attack");
+		panel.add(attackButton);
 
-		/* Add action listeners to buttons with method calls
+
 		attackButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//get x and y from GUI
+				int x = Integer.parseInt(field1.getText());
+				int y = Integer.parseInt(field2.getText());
 				attackSquare(x,y);
 			}
 		});
-		*/
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing (WindowEvent e) {
