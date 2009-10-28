@@ -1,0 +1,29 @@
+http://code.google.com/p/dcn-battleship/
+
+10x10 Board
+
+Piece Lengths:
+5 4 3 3 2
+
+[ Connecting ]
+P1 connects to server... waits
+P2 connects to server
+Server pairs P1 and P2
+
+
+[P1's Turn]
+Server --> P1 [ Start Turn ]
+P1 --> Server [ Attack Square ]
+Server --> P2 [ Attack Square ]
+P2 --> Server [ Hit/Miss ]
+Server --> P1 [ Hit/Miss ]
+
+[P2 Turn]
+Server --> P2 [ Start Turn ]
+P2 --> Server [ Attack Square]
+...
+
+opcodes:
+
+'a' - send attack
+'r' - send result
