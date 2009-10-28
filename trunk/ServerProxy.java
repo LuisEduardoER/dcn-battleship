@@ -72,6 +72,7 @@ public class ServerProxy implements UIListener {
 
 				}
 			} catch (EOFException exc) {
+				System.err.println("Opponent closed the socket.");
 			} catch (IOException exc) {
 				System.err.println ("ServerProxy.Reader.run(): I/O error");
 				exc.printStackTrace (System.err);
