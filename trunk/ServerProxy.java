@@ -49,6 +49,10 @@ public class ServerProxy implements UIListener {
 		listener.updateGUI(myBoard, enemyBoard);
 	}
 
+	public void setTurn(boolean myTurn) {
+		listener.setTurn(myTurn);
+	}
+
 	public void start() {
 		new Reader().start();
 	}
