@@ -111,8 +111,8 @@ public class BattleshipUI {
 			}
 		if (count == 0) {
 			for(UIListener listener : listeners) {
-				listener.endGame();
 				label.setText("You Lose!");
+				listener.endGame();
 			}
 		}
 		if (enemyCount == 17)
