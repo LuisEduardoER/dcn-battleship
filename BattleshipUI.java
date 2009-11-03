@@ -40,7 +40,7 @@ public class BattleshipUI {
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
 									System.out.println("Clicked top ("+ j + ","+ i +")");
-									if (topBoard[i][j].getBackground() != Color.BLUE)
+									if (topBoard[i][j].getBackground() == Color.BLUE)
 										attackSquare(i, j);
 								}
 							}
