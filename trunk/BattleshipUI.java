@@ -27,16 +27,6 @@ public class BattleshipUI {
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++) {
 				JButton button = new JButton();
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						for (int i = 0; i < 10; i++)
-							for (int j = 0; j < 10; j++) {
-								if (e.getSource() == bottomBoard[i][j]) {
-									System.out.println("Clicked Bottom ("+ j + ","+ i +")");
-								}
-							}
-					}
-				});
 				bottomPanel.add(button);
 				bottomBoard[i][j] = button;
 			}
@@ -50,7 +40,8 @@ public class BattleshipUI {
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
 									System.out.println("Clicked top ("+ j + ","+ i +")");
-									attackSquare(i, j);
+									if (topBoard[i][j].getBackground() != Color.BLUE)
+										attackSquare(i, j);
 								}
 							}
 					}
