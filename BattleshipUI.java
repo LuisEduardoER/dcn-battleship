@@ -68,6 +68,10 @@ public class BattleshipUI {
 		frame.setVisible(true);
 	}
 
+	public void opponentQuit() {
+		frame.setTitle("Battleship - Opponent has forfeit the game!");
+	}
+
 	public void setTurn(boolean turn) {
 		frame.setTitle("Battleship - "+turn);
 		myturn = turn;
