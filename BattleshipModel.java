@@ -4,6 +4,7 @@ import java.util.Random;
 public class BattleshipModel implements ModelListener {
 	private UIListener listener;
 
+	// Storage for board states
 	private char[][] myBoard;
 	private char[][] enemyBoard;
 	
@@ -11,12 +12,11 @@ public class BattleshipModel implements ModelListener {
 	private final int BOARD_W = 10;    // board width
 	private final int BOARD_H = 10;    // board height
 	private final int[] ships = {5, 4, 3, 3, 2}; // ship lengths
-
 	private final char _SHIP = 'O';    // unhit ship
 	private final char _HIT = 'X';     // hit ship
 	private final char _WATER = '.';   // unhit water
 	private final char _SPLASH = '+';  // hit water
-	
+
 	public BattleshipModel() {
 		myBoard = new char[BOARD_W][BOARD_H];
 		enemyBoard = new char[BOARD_W][BOARD_H];
@@ -43,7 +43,7 @@ public class BattleshipModel implements ModelListener {
 
 	/************************************
 	* Functions called from ServerProxy *
-	*************************************/
+	************************************/
 	public void processAttack(int x, int y) {
 		boolean hit = false;
 		// check myBoard for hit at x,y
@@ -73,6 +73,7 @@ public class BattleshipModel implements ModelListener {
 	public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
 		listener.updateGUI(myBoard, enemyBoard);
 	}
+
 	public void setTurn(boolean myTurn) {
 		listener.setTurn(myTurn);
 	}
