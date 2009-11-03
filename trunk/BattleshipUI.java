@@ -11,17 +11,19 @@ public class BattleshipUI {
 	private JFrame frame;
 	private JButton[][] bottomBoard;
 	private JButton[][] topBoard;
-	private Boolean myturn;
+	private Boolean myturn = true;
+	private JLabel label;
 	public BattleshipUI() {
 		bottomBoard = new JButton[10][10];
 		topBoard = new JButton[10][10];
 		frame = new JFrame("Battleship");
+		label = new JLabel("BATTLESHIP");
 		/*
 			Build GUI here
 		*/
 		
-		GridLayout mainLayout = new GridLayout(2,1);
-		mainLayout.setVgap(20);
+		GridLayout mainLayout = new GridLayout(3,1);
+		mainLayout.setVgap(10);
 		JPanel panel = new JPanel(mainLayout);
 		JPanel topPanel = new JPanel(new GridLayout(10,10));
 		JPanel bottomPanel = new JPanel(new GridLayout(10,10));
@@ -41,7 +43,7 @@ public class BattleshipUI {
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
 									System.out.println("Clicked top ("+ j + ","+ i +")");
-									if (topBoard[i][j].getBackground() == Color.BLUE && myturn)
+									if ((topBoard[i][j].getBackground() == Color.BLUE) && myturn)
 										attackSquare(i, j);
 								}
 							}
@@ -52,6 +54,7 @@ public class BattleshipUI {
 			}
 
 		panel.add(topPanel);
+		panel.add(label);
 		panel.add(bottomPanel);
 
 		frame.add(panel);
@@ -71,10 +74,13 @@ public class BattleshipUI {
 	}
 
 	public void updateGUI(char[][] myboard, char[][] enemyboard) {
+		int count = 0;
+		int enemyCount = 0;
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++) {
 				switch (myboard[i][j]) {
 					case 'O':
+						count++;
 						bottomBoard[i][j].setBackground(Color.BLACK);
 						break;
 					case 'X':
@@ -92,6 +98,7 @@ public class BattleshipUI {
 						topBoard[i][j].setBackground(Color.BLACK);
 						break;
 					case 'X':
+						enemyCount++;
 						topBoard[i][j].setBackground(Color.GREEN);
 						break;
 					case '.':
@@ -102,6 +109,14 @@ public class BattleshipUI {
 						break;
 				}
 			}
+		if (count == 0) {
+			for(UIListener listener : listeners) {
+				listener.endGame();
+				label.setText("You Lose!");
+			}
+		}
+		if (enemyCount == 17)
+			label.setText("You Win!");
 	}
 	public synchronized void addListener(UIListener listener) {
 		listeners.add(listener);
