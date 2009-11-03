@@ -57,9 +57,6 @@ public class BattleshipUI {
 		frame.add(panel);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing (WindowEvent e) {
-				for(UIListener listener : listeners) {
-					listener.endGame();
-				}
 				System.exit (0);
 			}
 		});
@@ -73,7 +70,11 @@ public class BattleshipUI {
 	}
 
 	public void setTurn(boolean turn) {
-		frame.setTitle("Battleship - "+turn);
+		if (turn)
+			frame.setTitle("Battleship - Your Turn!");
+		else 
+			frame.setTitle("Battleship - Opponent's Turn!");
+			
 		myturn = turn;
 	}
 
