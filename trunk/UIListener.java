@@ -11,4 +11,6 @@ public interface UIListener {
 	public void setTurn(boolean myTurn);
 
 	public void endGame();
+
+	public void opponentQuit();
 }

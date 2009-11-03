@@ -53,6 +53,10 @@ public class ServerProxy implements UIListener {
 		listener.setTurn(myTurn);
 	}
 
+	public void opponentQuit() {
+		listener.opponentQuit();
+	}
+
 	public void start() {
 		new Reader().start();
 	}
