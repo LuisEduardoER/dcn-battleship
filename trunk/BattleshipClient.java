@@ -18,8 +18,9 @@ public class BattleshipClient {
 			public void processAttack(int x, int y) {
 				model.processAttack(x,y);
 			}
-			public void processResult(boolean hit) {
-				model.processResult(hit);
+			public void processResult(boolean hit, int lastX, int lastY) {
+				System.out.println("CLIENT x = " + lastX + ", y = " + lastY);
+				model.processResult(hit, lastX, lastY);
 			}
 			public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
 				ui.updateGUI(myBoard, enemyBoard);
@@ -28,7 +29,6 @@ public class BattleshipClient {
 		proxy.start();
 		model.setListener(proxy);
 		ui.addListener(proxy);
-
 	}
 
 	private static void usage() {

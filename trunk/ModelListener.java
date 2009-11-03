@@ -3,7 +3,7 @@ public interface ModelListener {
 
 	public void processAttack(int x, int y) throws IOException;
 	
-	public void processResult(boolean hit) throws IOException;
+	public void processResult(boolean hit, int lastX, int lastY) throws IOException;
 
 	public void updateGUI(char[][] myBoard, char[][] enemyBoard);
 
