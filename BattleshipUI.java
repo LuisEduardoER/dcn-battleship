@@ -11,6 +11,7 @@ public class BattleshipUI {
 	private JFrame frame;
 	private JButton[][] bottomBoard;
 	private JButton[][] topBoard;
+	private Boolean myturn;
 	public BattleshipUI() {
 		bottomBoard = new JButton[10][10];
 		topBoard = new JButton[10][10];
@@ -40,7 +41,7 @@ public class BattleshipUI {
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
 									System.out.println("Clicked top ("+ j + ","+ i +")");
-									if (topBoard[i][j].getBackground() == Color.BLUE)
+									if (topBoard[i][j].getBackground() == Color.BLUE && myturn)
 										attackSquare(i, j);
 								}
 							}
@@ -63,6 +64,10 @@ public class BattleshipUI {
 
 		frame.pack();
 		frame.setVisible(true);
+	}
+
+	public void setTurn(boolean turn) {
+		myturn = turn;
 	}
 
 	public void updateGUI(char[][] myboard, char[][] enemyboard) {
@@ -103,6 +108,7 @@ public class BattleshipUI {
 	}
 	
 	private synchronized void attackSquare(int x, int y) {
+		myturn = false;
 		try {
 			for(UIListener listener : listeners) {
 				listener.sendAttack(x,y);
