@@ -33,7 +33,6 @@ public class BattleshipUI {
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == bottomBoard[i][j]) {
 									System.out.println("Clicked Bottom ("+ j + ","+ i +")");
-									attackSquare(i, j);
 								}
 							}
 					}
@@ -51,6 +50,7 @@ public class BattleshipUI {
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
 									System.out.println("Clicked top ("+ j + ","+ i +")");
+									attackSquare(i, j);
 								}
 							}
 					}
@@ -78,7 +78,7 @@ public class BattleshipUI {
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++) {
 				switch (myboard[i][j]) {
-					case '0':
+					case 'O':
 						bottomBoard[i][j].setBackground(Color.BLACK);
 						break;
 					case 'X':
@@ -92,7 +92,7 @@ public class BattleshipUI {
 						break;
 				}
 				switch (enemyboard[i][j]) {
-					case '0':
+					case 'O':
 						bottomBoard[i][j].setBackground(Color.BLACK);
 						break;
 					case 'X':
