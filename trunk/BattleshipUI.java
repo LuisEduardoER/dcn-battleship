@@ -12,18 +12,16 @@ public class BattleshipUI {
 	private JButton[][] bottomBoard;
 	private JButton[][] topBoard;
 	private Boolean myturn = true;
-	private JLabel label;
 	public BattleshipUI() {
 		bottomBoard = new JButton[10][10];
 		topBoard = new JButton[10][10];
 		frame = new JFrame("Battleship");
-		label = new JLabel("BATTLESHIP");
 		/*
 			Build GUI here
 		*/
 		
-		GridLayout mainLayout = new GridLayout(3,1);
-		mainLayout.setVgap(10);
+		GridLayout mainLayout = new GridLayout(2,1);
+		mainLayout.setVgap(20);
 		JPanel panel = new JPanel(mainLayout);
 		JPanel topPanel = new JPanel(new GridLayout(10,10));
 		JPanel bottomPanel = new JPanel(new GridLayout(10,10));
@@ -54,13 +52,14 @@ public class BattleshipUI {
 			}
 
 		panel.add(topPanel);
-		panel.add(label);
 		panel.add(bottomPanel);
 
 		frame.add(panel);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing (WindowEvent e) {
-				exitClient();
+				for(UIListener listener : listeners) {
+					listener.endGame();
+				}
 				System.exit (0);
 			}
 		});
@@ -70,6 +69,7 @@ public class BattleshipUI {
 	}
 
 	public void setTurn(boolean turn) {
+		frame.setTitle("Battleship - "+turn);
 		myturn = turn;
 	}
 
@@ -111,32 +111,23 @@ public class BattleshipUI {
 			}
 		if (count == 0) {
 			for(UIListener listener : listeners) {
-				label.setText("You Lose!");
+				frame.setTitle("Battleship - You Lose!");
 				listener.endGame();
 			}
 		}
 		if (enemyCount == 17)
-			label.setText("You Win!");
+			frame.setTitle("Battleship - You Win!");
 	}
 	public synchronized void addListener(UIListener listener) {
 		listeners.add(listener);
 	}
 	
 	private synchronized void attackSquare(int x, int y) {
-		myturn = false;
+		setTurn(false);
 		try {
 			for(UIListener listener : listeners) {
 				listener.sendAttack(x,y);
 			}
 		} catch (IOException exc) {}
 	}
-
-	private synchronized void exitClient() {
-		//try {
-			for (UIListener listener : listeners) {
-				//listener.stop();
-			}
-		//} catch (IOException exc) {}
-	}
-
 }
