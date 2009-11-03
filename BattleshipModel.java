@@ -57,7 +57,7 @@ public class BattleshipModel implements ModelListener {
 		System.out.println("Model computes hit: " + hit);
 		try { listener.sendResult(hit); } catch (IOException E) {}
 		updateGUI(myBoard, enemyBoard);
-		setTurn(false);
+		setTurn(true);
 	}
 
 	public void processResult(boolean hit, int x, int y) {
