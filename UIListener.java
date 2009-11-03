@@ -5,4 +5,6 @@ public interface UIListener {
 	
 	public void sendResult(boolean hit) throws IOException;
 
+	public void updateGUI(char[][] myBoard, char[][] enemyBoard);
+
 }

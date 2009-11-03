@@ -63,11 +63,11 @@ public class BattleshipUI {
 	}
 
 	private synchronized void exitClient() {
-		try {
+		//try {
 			for (UIListener listener : listeners) {
-				listener.stop();
+				//listener.stop();
 			}
-		} catch (IOException exc) {}
+		//} catch (IOException exc) {}
 	}
 
 }

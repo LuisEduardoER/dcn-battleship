@@ -40,6 +40,10 @@ public class ServerProxy implements UIListener {
 		out.flush();
 	}
 
+	public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
+		listener.updateGUI(myBoard, enemyBoard);
+	}
+
 	public void start() {
 		new Reader().start();
 	}
