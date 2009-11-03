@@ -57,6 +57,9 @@ public class BattleshipUI {
 		frame.add(panel);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing (WindowEvent e) {
+				for(UIListener listener : listeners) {
+					listener.endGame();
+				}
 				System.exit (0);
 			}
 		});
@@ -115,8 +118,8 @@ public class BattleshipUI {
 				}
 			}
 		if (count == 0) {
+			frame.setTitle("Battleship - You Lose!");
 			for(UIListener listener : listeners) {
-				frame.setTitle("Battleship - You Lose!");
 				listener.endGame();
 			}
 		}
