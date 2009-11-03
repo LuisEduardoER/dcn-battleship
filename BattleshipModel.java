@@ -37,6 +37,7 @@ public class BattleshipModel implements ModelListener {
 				("BattleshipModel.setListener(): listener is null");
 		}
 		this.listener = listener;
+		updateGUI(myBoard, enemyBoard);
 	}
 
 

@@ -14,8 +14,6 @@ public class BattleshipClient {
 		final ServerProxy proxy = new ServerProxy(socket);
 		final BattleshipUI ui = new BattleshipUI();
 		final BattleshipModel model = new BattleshipModel();
-		model.setListener(proxy);
-		ui.addListener(proxy);
 		proxy.setListener(new ModelListener() {
 			public void processAttack(int x, int y) {
 				model.processAttack(x,y);
@@ -28,6 +26,8 @@ public class BattleshipClient {
 			}
 		});
 		proxy.start();
+		model.setListener(proxy);
+		ui.addListener(proxy);
 
 	}
 
