@@ -28,9 +28,6 @@ public class BattleshipClient {
 			public void setTurn(boolean myTurn) {
 				ui.setTurn(myTurn);
 			}
-			public void displayResult(boolean win) {
-				ui.displayResult(win);
-			}
 		});
 		proxy.start();
 		model.setListener(proxy);
