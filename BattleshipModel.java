@@ -59,10 +59,13 @@ public class BattleshipModel implements ModelListener {
 		updateGUI(myBoard, enemyBoard);
 	}
 
-	public void processResult(boolean hit) {
-		/*
-			update enemyBoard with result from last attack
-		*/
+	public void processResult(boolean hit, int x, int y) {
+		System.out.println("MODEL x = " + x + ", y = " + y);
+		if (hit) {
+			enemyBoard[x][y] = _HIT;
+		} else {
+			enemyBoard[x][y] = _SPLASH;
+		}
 		updateGUI(myBoard, enemyBoard);
 	}
 
@@ -73,7 +76,6 @@ public class BattleshipModel implements ModelListener {
 	/*************************************
 	* Private board management functions *
 	*************************************/
-
 	private void generateRandomBoard() {
 		Random rand = new Random();
 		for (int i=0; i<ships.length; i++) {

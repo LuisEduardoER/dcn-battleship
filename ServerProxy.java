@@ -11,6 +11,9 @@ public class ServerProxy implements UIListener {
 	private DataInputStream in;
 	private ModelListener listener;
 
+	private int lastX;
+	private int lastY;
+
 	public ServerProxy(Socket socket) throws IOException {
 		this.socket = socket;
 		out = new DataOutputStream(socket.getOutputStream());
@@ -27,6 +30,8 @@ public class ServerProxy implements UIListener {
 
 
 	public void sendAttack(int x, int y) throws IOException {
+		lastX = x;
+		lastY = y;
 		out.writeChar('a'); //Attack Opcode 'a'
 		out.writeInt(x);
 		out.writeInt(y);
@@ -59,14 +64,13 @@ public class ServerProxy implements UIListener {
 					char code = in.readChar();
 					switch (code) {
 						case ('a'):
-							int x=in.readInt();
-							int y=in.readInt();
-							System.out.println("x, y: " + x +", " + y);
+							int x = in.readInt();
+							int y = in.readInt();
 							listener.processAttack(x,y);
 							break;
 						case ('r'):
 							boolean hit=in.readBoolean();
-							listener.processResult(hit);
+							listener.processResult(hit, lastX, lastY);
 							break;
 						default:
 							System.err.println("Reader received bad code.");
