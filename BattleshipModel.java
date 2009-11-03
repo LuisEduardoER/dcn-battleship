@@ -78,6 +78,10 @@ public class BattleshipModel implements ModelListener {
 		listener.setTurn(myTurn);
 	}
 
+	public void opponentQuit() {
+		listener.opponentQuit();
+	}
+
 	/*************************************
 	* Private board management functions *
 	*************************************/
