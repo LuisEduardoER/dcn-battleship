@@ -23,6 +23,9 @@ public class BattleshipClient {
 			public void processResult(boolean hit) {
 				model.processResult(hit);
 			}
+			public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
+				ui.updateGUI(myBoard, enemyBoard);
+			}
 		});
 		proxy.start();
 

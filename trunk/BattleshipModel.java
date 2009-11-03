@@ -40,6 +40,9 @@ public class BattleshipModel implements ModelListener {
 	}
 
 
+	/*
+	 *	Commands called from ServerProxy
+	 */
 	public void processAttack(int x, int y) {
 		boolean hit = false;
 		// check myBoard for hit at x,y
@@ -52,20 +55,31 @@ public class BattleshipModel implements ModelListener {
 		}
 		System.out.println("Model computes hit: " + hit);
 		try { listener.sendResult(hit); } catch (IOException E) {}
-		updateGUI();
+		updateGUI(myBoard, enemyBoard);
 	}
 
 	public void processResult(boolean hit) {
 		/*
 			update enemyBoard with result from last attack
 		*/
-		updateGUI();
+		updateGUI(myBoard, enemyBoard);
 	}
 
-	public void updateGUI() {
-		/*
-			Update GUI with new board
-		*/
+	public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
+		listener.updateGUI(myBoard, enemyBoard);
+	}
+
+	private boolean setShip
+		(int shipLength, int xZero, int yZero, boolean vertical) {
+		int x = xZero;
+		int y = yZero;
+
+		// first check to make sure we're placing in a legal position
+		if (vertical) {
+			if ((xZero+shipLength) > 10) {
+			}
+		}
+		return true;
 	}
 
 }

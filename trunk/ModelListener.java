@@ -5,4 +5,6 @@ public interface ModelListener {
 	
 	public void processResult(boolean hit) throws IOException;
 
+	public void updateGUI(char[][] myBoard, char[][] enemyBoard);
+
 }
