@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Random;
 
 public class BattleshipModel implements ModelListener {
 	private UIListener listener;
@@ -6,29 +7,28 @@ public class BattleshipModel implements ModelListener {
 	private char[][] myBoard;
 	private char[][] enemyBoard;
 	
-	// Board Pieces
+	// Board Constants
+	private final int BOARD_W = 10;    // board width
+	private final int BOARD_H = 10;    // board height
+	private final int[] ships = {5, 4, 3, 3, 2}; // ship lengths
+
 	private final char _SHIP = 'O';    // unhit ship
 	private final char _HIT = 'X';     // hit ship
 	private final char _WATER = '.';   // unhit water
 	private final char _SPLASH = '+';  // hit water
 	
 	public BattleshipModel() {
-		myBoard = new char[10][10];
-		enemyBoard = new char[10][10];
+		myBoard = new char[BOARD_W][BOARD_H];
+		enemyBoard = new char[BOARD_W][BOARD_H];
 		// initially fill boards with empty water
-		for (int x=0; x<10; x++) {
-			for (int y=0; y<10; y++) {
+		for (int x=0; x<BOARD_W; x++) {
+			for (int y=0; y<BOARD_H; y++) {
 				enemyBoard[x][y] = _WATER;
 				myBoard[x][y] = _WATER;
 			}
 		}
-
-		/*
-			fill myBoard with pieces (randomly or user-generated)
-		*/
-		myBoard[1][1] = _SHIP;
-		myBoard[1][2] = _SHIP;
-
+		// fill myBoard with ships placed randomly
+		generateRandomBoard();
 	}
 
 	public void setListener (UIListener listener) {
@@ -40,9 +40,9 @@ public class BattleshipModel implements ModelListener {
 	}
 
 
-	/*
-	 *	Commands called from ServerProxy
-	 */
+	/************************************
+	* Functions called from ServerProxy *
+	*************************************/
 	public void processAttack(int x, int y) {
 		boolean hit = false;
 		// check myBoard for hit at x,y
@@ -69,17 +69,72 @@ public class BattleshipModel implements ModelListener {
 		listener.updateGUI(myBoard, enemyBoard);
 	}
 
-	private boolean setShip
-		(int shipLength, int xZero, int yZero, boolean vertical) {
+	/*************************************
+	* Private board management functions *
+	*************************************/
+
+	private void generateRandomBoard() {
+		Random rand = new Random();
+		for (int i=0; i<ships.length; i++) {
+			int shipLength = ships[i];
+			int xZero;
+			int yZero;
+			boolean vertical;
+			do {
+				xZero = rand.nextInt(BOARD_W);
+				yZero = rand.nextInt(BOARD_H);
+				vertical = rand.nextBoolean();
+			} while ( !setShip(shipLength, xZero, yZero, vertical) );
+		}
+	}
+
+	private boolean setShip(int shipLength, int xZero,
+							int yZero, boolean vertical) {
 		int x = xZero;
 		int y = yZero;
 
-		// first check to make sure we're placing in a legal position
-		if (vertical) {
-			if ((xZero+shipLength) > 10) {
+		// check if placement is out of bounds
+		if ( vertical && ((yZero+shipLength)>(BOARD_H-1)) ) {
+			return false;
+		} else if (!vertical && ((xZero+shipLength)>(BOARD_W-1)) ) {
+			return false;
+		}
+		// check if placement overlaps another ship
+		for (int i=0; i<shipLength; i++) {
+			if (myBoard[x][y] != _WATER) {
+				return false;
+			}
+			if (vertical) {
+				y++;
+			} else {
+				x++;
 			}
 		}
+
+		// place ship
+		x = xZero;
+		y = yZero;
+		for (int i=0; i<shipLength; i++) {
+			myBoard[x][y] = _SHIP;
+			if (vertical) {
+				y++;
+			} else {
+				x++;
+			}
+		}
+		// ship successfully placed
 		return true;
+	}
+
+	// test function to print a board to System.out
+	private void printBoard(char[][] board) {
+		System.out.println();
+		for (int i=0; i<BOARD_W; i++) {
+			for (int j=0; j<BOARD_H; j++) {
+				System.out.print(board[j][i] + " ");
+			}
+			System.out.println("");
+		}
 	}
 
 }
