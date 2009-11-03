@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ServerProxy implements UIListener {
-
+	// Private data members
 	private Socket socket;
-	private DataOutputStream out;
-	private DataInputStream in;
+	private DataOutputStream out;	// write to socket
+	private DataInputStream in;		// read from socket
 	private ModelListener listener;
 
-	private int lastX;
-	private int lastY;
+	private int lastX;	// stores x coord from last attack
+	private int lastY;	// stores y coord from last attack
 
 	public ServerProxy(Socket socket) throws IOException {
 		this.socket = socket;
@@ -28,7 +28,9 @@ public class ServerProxy implements UIListener {
 		this.listener = listener;
 	}
 
-
+	/**************************************
+	* Functions inherited from UIListener *
+	**************************************/
 	public void sendAttack(int x, int y) throws IOException {
 		lastX = x;
 		lastY = y;
@@ -57,17 +59,21 @@ public class ServerProxy implements UIListener {
 		listener.opponentQuit();
 	}
 
+	// called if you lose
+	public void endGame() {
+		stop();
+	}
+
+	/*******************
+	* Reader functions *
+	*******************/
 	public void start() {
 		new Reader().start();
 	}
 
 	public void stop() {
+		System.out.println("CLOSING SOCKET");
 		try { socket.shutdownInput(); } catch (IOException exc) {}
-	}
-
-	// called if you calculate a loss only
-	public void endGame() {
-		stop();
 	}
 
 	private class Reader extends Thread {

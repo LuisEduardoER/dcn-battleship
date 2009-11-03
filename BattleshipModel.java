@@ -17,6 +17,7 @@ public class BattleshipModel implements ModelListener {
 	private final char _WATER = '.';   // unhit water
 	private final char _SPLASH = '+';  // hit water
 
+
 	public BattleshipModel() {
 		myBoard = new char[BOARD_W][BOARD_H];
 		enemyBoard = new char[BOARD_W][BOARD_H];
