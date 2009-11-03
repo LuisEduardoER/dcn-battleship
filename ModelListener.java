@@ -10,4 +10,5 @@ public interface ModelListener {
 
 	public void setTurn(boolean myTurn);
 
+	public void opponentQuit();
 }

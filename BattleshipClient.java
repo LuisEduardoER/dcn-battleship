@@ -28,6 +28,9 @@ public class BattleshipClient {
 			public void setTurn(boolean myTurn) {
 				ui.setTurn(myTurn);
 			}
+			public void opponentQuit() {
+				ui.opponentQuit();
+			}
 		});
 		proxy.start();
 		model.setListener(proxy);
