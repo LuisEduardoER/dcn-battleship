@@ -93,16 +93,16 @@ public class BattleshipUI {
 				}
 				switch (enemyboard[i][j]) {
 					case 'O':
-						bottomBoard[i][j].setBackground(Color.BLACK);
+						topBoard[i][j].setBackground(Color.BLACK);
 						break;
 					case 'X':
-						bottomBoard[i][j].setBackground(Color.GREEN);
+						topBoard[i][j].setBackground(Color.GREEN);
 						break;
 					case '.':
-						bottomBoard[i][j].setBackground(Color.BLUE);
+						topBoard[i][j].setBackground(Color.BLUE);
 						break;
 					case '+':
-						bottomBoard[i][j].setBackground(Color.RED);
+						topBoard[i][j].setBackground(Color.RED);
 						break;
 				}
 			}
