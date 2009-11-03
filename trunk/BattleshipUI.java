@@ -45,6 +45,11 @@ public class BattleshipUI {
 		frame.setVisible(true);
 	}
 
+	public void updateGUI(char[][] myboard, char[][] enemyboard) {
+		System.out.println("Updating GUI");
+
+	}
+
 	public synchronized void addListener(UIListener listener) {
 		listeners.add(listener);
 	}
