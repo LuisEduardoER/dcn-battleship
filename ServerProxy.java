@@ -94,7 +94,6 @@ public class ServerProxy implements UIListener {
 				}
 			} catch (EOFException exc) {
 				listener.opponentQuit();
-				// add method to GUI to display "Opponent Quit" called opponentQuit()
 				System.err.println("Opponent closed the socket.");
 			} catch (IOException exc) {
 				System.err.println ("ServerProxy.Reader.run(): I/O error");
