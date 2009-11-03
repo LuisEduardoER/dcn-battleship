@@ -1,4 +1,5 @@
 import java.io.IOException;
+
 public interface ModelListener {
 
 	public void processAttack(int x, int y) throws IOException;
@@ -8,5 +9,7 @@ public interface ModelListener {
 	public void updateGUI(char[][] myBoard, char[][] enemyBoard);
 
 	public void setTurn(boolean myTurn);
+
+	public void displayResult(boolean win);
 
 }

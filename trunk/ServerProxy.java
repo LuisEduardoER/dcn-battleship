@@ -61,6 +61,11 @@ public class ServerProxy implements UIListener {
 		try { socket.shutdownInput(); } catch (IOException exc) {}
 	}
 
+	// called if you calculate a loss only
+	public void endGame() {
+		stop();
+	}
+
 	private class Reader extends Thread {
 		public void run() {
 			try {

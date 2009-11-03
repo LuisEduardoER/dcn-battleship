@@ -1,4 +1,5 @@
 import java.io.IOException;
+
 public interface UIListener {
 
 	public void sendAttack(int x, int y) throws IOException;
@@ -8,4 +9,6 @@ public interface UIListener {
 	public void updateGUI(char[][] myBoard, char[][] enemyBoard);
 
 	public void setTurn(boolean myTurn);
+
+	public void endGame();
 }
