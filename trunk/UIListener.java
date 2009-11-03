@@ -7,4 +7,5 @@ public interface UIListener {
 
 	public void updateGUI(char[][] myBoard, char[][] enemyBoard);
 
+	public void setTurn(boolean myTurn);
 }

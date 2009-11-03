@@ -25,6 +25,9 @@ public class BattleshipClient {
 			public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
 				ui.updateGUI(myBoard, enemyBoard);
 			}
+			public void setTurn(boolean myTurn) {
+				ui.setTurn(myTurn);
+			}
 		});
 		proxy.start();
 		model.setListener(proxy);
