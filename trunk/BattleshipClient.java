@@ -3,6 +3,12 @@ import java.net.Socket;
 
 public class BattleshipClient {
 
+	/*
+	 * Main method initializes the GUI, Model and Listeners
+	 *
+	 *	@param	arg[0]	address of server
+	 *	@param	arg[1]	port of server
+	 */
 	public static void main (String[] args) throws Exception {
 		if (args.length != 2) usage();
 		String host = args[0];
@@ -37,6 +43,9 @@ public class BattleshipClient {
 		ui.addListener(proxy);
 	}
 
+	/*
+	 * Prints a usage message to System.err
+	 */
 	private static void usage() {
 		System.err.println("Usage: java BattleshipClient <host> <port>");
 		System.err.println("<host> = Server host name");
