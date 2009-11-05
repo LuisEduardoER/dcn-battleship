@@ -13,6 +13,9 @@ public class BattleshipUI {
 	private JButton[][] topBoard;
 	private Boolean gameOver = false;
 	private Boolean myturn = true;
+
+	private	
+
 	public BattleshipUI() {
 		bottomBoard = new JButton[10][10];
 		topBoard = new JButton[10][10];
