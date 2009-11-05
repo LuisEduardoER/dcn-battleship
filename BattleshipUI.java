@@ -1,6 +1,6 @@
-//import java.awt.*;
 import java.awt.GridLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
@@ -9,21 +9,25 @@ import java.io.IOException;
 public class BattleshipUI {
 	private List<UIListener> listeners = new ArrayList<UIListener>();
 	private JFrame frame;
-	private JButton[][] bottomBoard;
-	private JButton[][] topBoard;
+	private JButton[][] bottomBoard;	// buttons to represent my board
+	private JButton[][] topBoard;		// buttons to represent opponent's board
 	private Boolean gameOver = false;
-	private Boolean myturn = true;
+	private Boolean myturn = true;		// True if it's my turn to attack
 
-	private	
+	// Constants for defining board color scheme
+	private	final Color _WATER = Color.BLUE;
+	private	final Color _SHIP = Color.BLACK;
+	private	final Color _HIT = Color.RED;
+	private	final Color _MISS = Color.LIGHT_GRAY;
 
+	/*
+	 *	Constructor - Builds and displays the GUI
+	 */
 	public BattleshipUI() {
 		bottomBoard = new JButton[10][10];
 		topBoard = new JButton[10][10];
 		frame = new JFrame("Battleship");
-		/*
-			Build GUI here
-		*/
-		
+
 		GridLayout mainLayout = new GridLayout(2,1);
 		mainLayout.setVgap(20);
 		JPanel panel = new JPanel(mainLayout);
@@ -35,7 +39,6 @@ public class BattleshipUI {
 				bottomPanel.add(button);
 				bottomBoard[i][j] = button;
 			}
-		
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++) {
 				JButton button = new JButton();
@@ -44,7 +47,7 @@ public class BattleshipUI {
 						for (int i = 0; i < 10; i++)
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
-									if ((topBoard[i][j].getBackground() == Color.BLUE) && myturn)
+									if ((topBoard[i][j].getBackground() == _WATER) && myturn)
 										attackSquare(i, j);
 								}
 							}
@@ -66,19 +69,26 @@ public class BattleshipUI {
 				System.exit (0);
 			}
 		});
-
+		frame.setMinimumSize(new Dimension(402, 610));
 		frame.pack();
 		frame.setVisible(true);
 	}
 
+	/*
+	 *	If the socket closes unexpectedly, display a message saying the opponent has quit the game.
+	 */
 	public void opponentQuit() {
 		if (!gameOver) {
 			frame.setTitle("Battleship - Opponent has forfeit the game!");
-			JOptionPane.showMessageDialog(null,"Your opponent has forfeit the game! You Win!", "Game Over", JOptionPane.DEFAULT_OPTION);
+			JOptionPane.showMessageDialog(null,"Your opponent has forfeit the game! You Win!",
+											"Game Over", JOptionPane.DEFAULT_OPTION);
 			gameOver = true;
 		}
 	}
 
+	/*
+	 *	Sets the title message displaying whose turn it is to attack
+	 */
 	public void setTurn(boolean turn) {
 		if (!gameOver) {
 			if (turn)
@@ -89,42 +99,54 @@ public class BattleshipUI {
 		}
 	}
 
+	/*
+	 *	Updates the display with new boards and checks for a win or lose
+	 *
+	 *	@param	myboard		configuration of my board
+	 *	@param	enemyboard	configuration of opponent's board
+	 */
 	public void updateGUI(char[][] myboard, char[][] enemyboard) {
 		int count = 0;
 		int enemyCount = 0;
+		// iterate over every button, setting it to the proper color
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++) {
+				bottomBoard[i][j].setEnabled(false);
+				topBoard[i][j].setEnabled(false);
 				switch (myboard[i][j]) {
 					case 'O':
 						count++;
-						bottomBoard[i][j].setBackground(Color.BLACK);
+						bottomBoard[i][j].setBackground(_SHIP);
 						break;
 					case 'X':
-						bottomBoard[i][j].setBackground(Color.GREEN);
+						bottomBoard[i][j].setBackground(_HIT);
 						break;
 					case '.':
-						bottomBoard[i][j].setBackground(Color.BLUE);
+						bottomBoard[i][j].setBackground(_WATER);
 						break;
 					case '+':
-						bottomBoard[i][j].setBackground(Color.RED);
+						bottomBoard[i][j].setBackground(_MISS);
 						break;
 				}
 				switch (enemyboard[i][j]) {
 					case 'O':
-						topBoard[i][j].setBackground(Color.BLACK);
+						topBoard[i][j].setBackground(_SHIP);
 						break;
 					case 'X':
 						enemyCount++;
-						topBoard[i][j].setBackground(Color.GREEN);
+						topBoard[i][j].setBackground(_HIT);
 						break;
 					case '.':
-						topBoard[i][j].setBackground(Color.BLUE);
+						topBoard[i][j].setBackground(_WATER);
+						topBoard[i][j].setEnabled(true);
 						break;
 					case '+':
-						topBoard[i][j].setBackground(Color.RED);
+						topBoard[i][j].setBackground(_MISS);
 						break;
 				}
 			}
+		// Check if you've run out of ships
+		// You lose when your ship count reaches 0
 		if (count == 0) {
 			if (!gameOver) {
 				gameOver = true;
@@ -135,6 +157,8 @@ public class BattleshipUI {
 				}
 			}	
 		}
+		// Check if you've found all the enemy ships
+		// You win when you've hit 17 ships
 		if (enemyCount == 17) {
 			if (!gameOver) {
 				gameOver = true;
@@ -143,10 +167,23 @@ public class BattleshipUI {
 			}
 		}
 	}
+
+	/*
+	 *	Adds a listener to the List of UIListeners.
+	 *
+	 *	@param	listener	listener to add
+	 */
 	public synchronized void addListener(UIListener listener) {
 		listeners.add(listener);
 	}
 	
+	/*
+	 *	Sends an message to each UIListener telling it to send an attack message.
+	 *	Sets the current turn to opponent's
+	 *
+	 *	@param	x	x coordinate of position to attack
+	 *	@param	y	y coordinate of position to attack
+	 */
 	private synchronized void attackSquare(int x, int y) {
 		setTurn(false);
 		try {
