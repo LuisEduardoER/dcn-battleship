@@ -5,8 +5,8 @@ public class BattleshipModel implements ModelListener {
 	private UIListener listener;
 
 	// Storage for board states
-	private char[][] myBoard;
-	private char[][] enemyBoard;
+	private char[][] myBoard;		// complete state of my board
+	private char[][] enemyBoard;	// known state of enemy board
 	
 	// Board Constants
 	private final int BOARD_W = 10;    // board width
@@ -17,7 +17,9 @@ public class BattleshipModel implements ModelListener {
 	private final char _WATER = '.';   // unhit water
 	private final char _SPLASH = '+';  // hit water
 
-
+	/*
+	 *	Constructor, populates game boards
+	 */
 	public BattleshipModel() {
 		myBoard = new char[BOARD_W][BOARD_H];
 		enemyBoard = new char[BOARD_W][BOARD_H];
@@ -32,6 +34,11 @@ public class BattleshipModel implements ModelListener {
 		generateRandomBoard();
 	}
 
+	/*
+	 *	Sets the listener to be used for this model
+	 *
+	 *	@param	listener	listener object to set
+	 */
 	public void setListener (UIListener listener) {
 		if (listener == null) {
 			throw new NullPointerException
@@ -45,6 +52,15 @@ public class BattleshipModel implements ModelListener {
 	/************************************
 	* Functions called from ServerProxy *
 	************************************/
+
+	/*
+	 *	Takes an x and y coordinate and checks if there is a ship
+	 *	at that location. Sends the result of the attack back to
+	 *	the opponent.
+	 *
+	 *	@param	x	x coordinate of position to check
+	 *	@param	y	y coordinate of position to check
+	 */
 	public void processAttack(int x, int y) {
 		boolean hit = false;
 		// check myBoard for hit at x,y
@@ -61,6 +77,13 @@ public class BattleshipModel implements ModelListener {
 		setTurn(true);
 	}
 
+	/*
+	 *	Takes the result of the last attack and updates the board
+	 *
+	 *	@param	hit		whether previous attack was a hit or miss
+	 *	@param	x		x coordinate of last attack
+	 *	@param	y		y coordinate of last attack
+	 */
 	public void processResult(boolean hit, int x, int y) {
 		System.out.println("MODEL x = " + x + ", y = " + y);
 		if (hit) {
@@ -71,21 +94,43 @@ public class BattleshipModel implements ModelListener {
 		updateGUI(myBoard, enemyBoard);
 	}
 
+	/*
+	 *	Sends the updated game boards to the GUI to be displayed
+	 *
+	 *	@param	myBoard		configuration of my game board
+	 *	@param	enemyBoard	known configuration of enemy game board
+	 */
 	public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
 		listener.updateGUI(myBoard, enemyBoard);
 	}
 
+	/*
+	 *	Tells the GUI whether or not it's my turn, allowing the
+	 *	user to attack or not to attack.
+	 *
+	 *	@param	myTurn	True if it is currently my turn to attack
+	 */
 	public void setTurn(boolean myTurn) {
 		listener.setTurn(myTurn);
 	}
 
+	/*
+	 *	Called when the socket is closed unexpectedly, telling
+	 *	us that the opponent has quit the game.
+	 */
 	public void opponentQuit() {
 		listener.opponentQuit();
 	}
 
+
 	/*************************************
 	* Private board management functions *
 	*************************************/
+
+	/*
+	 *	Populates the board with the proper ships at random locations
+	 *	and facing random directions.
+	 */
 	private void generateRandomBoard() {
 		Random rand = new Random();
 		for (int i=0; i<ships.length; i++) {
@@ -101,6 +146,14 @@ public class BattleshipModel implements ModelListener {
 		}
 	}
 
+	/*
+	 *	Atttempts to place a ship in a certain position.
+	 *
+	 *	@param	shiplength	Length of ship to be set
+	 *	@param	xZero		Starting x position
+	 *	@param	yZero		Starting y position
+	 *	@param	vertical	True if ship is vertical, false if horizontal
+	 */
 	private boolean setShip(int shipLength, int xZero,
 							int yZero, boolean vertical) {
 		int x = xZero;
@@ -139,7 +192,11 @@ public class BattleshipModel implements ModelListener {
 		return true;
 	}
 
-	// test function to print a board to System.out
+	/*
+	 *	Test function to print the state of the board to System.out
+	 *
+	 *	@param board	configuration to print
+	 */
 	private void printBoard(char[][] board) {
 		System.out.println();
 		for (int i=0; i<BOARD_W; i++) {
