@@ -1,6 +1,13 @@
 import java.io.IOException;
 import java.util.Random;
 
+/*
+ *	The backend for the client portion of the Battleship program. Keeps track
+ *	of game boards and handles any operations on them.
+ *
+ *	@author	Gabriel Smith (ges7506@rit.edu)
+ *	@author Tim Ransome (twr9948@rit.edu)
+ */
 public class BattleshipModel implements ModelListener {
 	private UIListener listener;
 

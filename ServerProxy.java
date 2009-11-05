@@ -4,6 +4,14 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
+/*
+ *	Acts as a server proxy for the client portion of Battleship. Reads and
+ *	handles any messages incoming on the socket and sends messages out to the
+ *	opponent.
+ *
+ *	@author	Gabriel Smith (ges7506@rit.edu)
+ *	@author Timothy Ransome (twr9948@rit.edu)
+ */
 public class ServerProxy implements UIListener {
 	// Private data members
 	private Socket socket;
