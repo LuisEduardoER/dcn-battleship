@@ -1,6 +1,14 @@
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+/*
+ *	Client portion of the Battleship program. Sets up the model, view and
+ *	controllers for the client half of the application. BattleshipServer
+ *	needs to be running before starting any BattleshipClients.
+ *
+ *	@author	Gabriel Smith (ges7506@rit.edu)
+ *	@author Timothy Ransome (twr9948@rit.edu)
+ */
 public class BattleshipClient {
 
 	/*

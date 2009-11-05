@@ -4,6 +4,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Stack;
 
+/*
+ *	The server portion of the Battleship program. Accepts incoming connections
+ *	from clients on the specified port.	When a client joins, it is matched with
+ *	another client waiting to play. If there are no opponents waiting, the new
+ *	client is placed in a queue until someone joins.
+ *
+ *	@author Timothy Ransome (twr9948@rit.edu)
+ *	@author	Gabriel Smith (ges7506@rit.edu)
+ */
 public class BattleshipServer {
 
 	private ServerSocket serversocket;

@@ -1,5 +1,11 @@
 import java.io.IOException;
 
+/*
+ *	Inferface for the client-side model controller of the Battleship program.
+ *
+ *	@author Timothy Ransome (twr9948@rit.edu)
+ *	@author	Gabriel Smith (ges7506@rit.edu)
+ */
 public interface ModelListener {
 
 	/*

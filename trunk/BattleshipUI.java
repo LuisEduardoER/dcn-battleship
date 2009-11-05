@@ -6,6 +6,14 @@ import javax.swing.*;
 import java.util.*;
 import java.io.IOException;
 
+/*
+ *	The GUI for the client portion of the Battleship program. Builds and
+ *	displays the interface and handles any input from the user. Also displays
+ *	important messages from the model.
+ *
+ *	@author Tim Ransome (twr9948@rit.edu)
+ *	@author	Gabriel Smith (ges7506@rit.edu)
+ */
 public class BattleshipUI {
 	private List<UIListener> listeners = new ArrayList<UIListener>();
 	private JFrame frame;
