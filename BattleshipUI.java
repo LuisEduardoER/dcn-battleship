@@ -71,6 +71,7 @@ public class BattleshipUI {
 	public void opponentQuit() {
 		if (!gameOver) {
 			frame.setTitle("Battleship - Opponent has forfeit the game!");
+			JOptionPane.showMessageDialog(null,"Your opponent has forfeit the game! You Win!", "Game Over", JOptionPane.DEFAULT_OPTION);
 			gameOver = true;
 		}
 	}
