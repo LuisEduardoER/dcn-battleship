@@ -11,6 +11,7 @@ public class BattleshipUI {
 	private JFrame frame;
 	private JButton[][] bottomBoard;
 	private JButton[][] topBoard;
+	private Boolean gameOver = false;
 	private Boolean myturn = true;
 	public BattleshipUI() {
 		bottomBoard = new JButton[10][10];
@@ -40,7 +41,6 @@ public class BattleshipUI {
 						for (int i = 0; i < 10; i++)
 							for (int j = 0; j < 10; j++) {
 								if (e.getSource() == topBoard[i][j]) {
-									System.out.println("Clicked top ("+ j + ","+ i +")");
 									if ((topBoard[i][j].getBackground() == Color.BLUE) && myturn)
 										attackSquare(i, j);
 								}
@@ -69,16 +69,20 @@ public class BattleshipUI {
 	}
 
 	public void opponentQuit() {
-		frame.setTitle("Battleship - Opponent has forfeit the game!");
+		if (!gameOver) {
+			frame.setTitle("Battleship - Opponent has forfeit the game!");
+			gameOver = true;
+		}
 	}
 
 	public void setTurn(boolean turn) {
-		if (turn)
-			frame.setTitle("Battleship - Your Turn!");
-		else 
-			frame.setTitle("Battleship - Opponent's Turn!");
-			
-		myturn = turn;
+		if (!gameOver) {
+			if (turn)
+				frame.setTitle("Battleship - Your Turn!");
+			else 
+				frame.setTitle("Battleship - Opponent's Turn!");
+			myturn = turn;
+		}
 	}
 
 	public void updateGUI(char[][] myboard, char[][] enemyboard) {
@@ -118,13 +122,22 @@ public class BattleshipUI {
 				}
 			}
 		if (count == 0) {
-			frame.setTitle("Battleship - You Lose!");
-			for(UIListener listener : listeners) {
-				listener.endGame();
+			if (!gameOver) {
+				gameOver = true;
+				frame.setTitle("Battleship - You Lose!");
+				JOptionPane.showMessageDialog(null, "You Lose!", "Game Over", JOptionPane.DEFAULT_OPTION);
+				for(UIListener listener : listeners) {
+					listener.endGame();
+				}
+			}	
+		}
+		if (enemyCount == 17) {
+			if (!gameOver) {
+				gameOver = true;
+				frame.setTitle("Battleship - You Win!");
+				JOptionPane.showMessageDialog(null, "You Win!", "Game Over", JOptionPane.DEFAULT_OPTION);
 			}
 		}
-		if (enemyCount == 17)
-			frame.setTitle("Battleship - You Win!");
 	}
 	public synchronized void addListener(UIListener listener) {
 		listeners.add(listener);
