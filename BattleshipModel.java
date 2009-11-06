@@ -78,8 +78,8 @@ public class BattleshipModel implements ModelListener {
 		} else {
 			myBoard[x][y] = _SPLASH;
 		}
-		System.out.println("Model computes hit: " + hit);
-		try { listener.sendResult(hit); } catch (IOException E) {}
+		try { listener.sendResult(hit); }
+		catch (IOException e) { e.printStackTrace(System.err); }
 		updateGUI(myBoard, enemyBoard);
 		setTurn(true);
 	}
@@ -92,7 +92,6 @@ public class BattleshipModel implements ModelListener {
 	 *	@param	y		y coordinate of last attack
 	 */
 	public void processResult(boolean hit, int x, int y) {
-		System.out.println("MODEL x = " + x + ", y = " + y);
 		if (hit) {
 			enemyBoard[x][y] = _HIT;
 		} else {

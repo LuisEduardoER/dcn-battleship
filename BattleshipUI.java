@@ -198,6 +198,6 @@ public class BattleshipUI {
 			for(UIListener listener : listeners) {
 				listener.sendAttack(x,y);
 			}
-		} catch (IOException exc) {}
+		} catch (IOException e) { e.printStackTrace(System.err); }
 	}
 }

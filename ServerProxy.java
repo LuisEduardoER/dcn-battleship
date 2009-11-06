@@ -73,7 +73,6 @@ public class ServerProxy implements UIListener {
 	 *	@param hit	whether last attack hit or not
 	 */
 	public void sendResult(boolean hit) throws IOException {
-		System.out.println("ServerProxy sending result: "+hit);
 		out.writeChar('r'); //Result Opcode 'r'
 		out.writeBoolean(hit);
 		out.flush();
@@ -128,7 +127,6 @@ public class ServerProxy implements UIListener {
 	 *	Closes the socket to end the game.
 	 */
 	public void stop() {
-		System.out.println("CLOSING SOCKET");
 		try { socket.shutdownInput(); } catch (IOException exc) {}
 	}
 
@@ -145,30 +143,31 @@ public class ServerProxy implements UIListener {
 				for (;;) {
 					char code = in.readChar();
 					switch (code) {
-						case ('a'):
+						case ('a'):	// attack
 							int x = in.readInt();
 							int y = in.readInt();
 							listener.processAttack(x,y);
 							break;
-						case ('r'):
+						case ('r'):	// results
 							boolean hit=in.readBoolean();
 							listener.processResult(hit, lastX, lastY);
 							break;
 						default:
 							System.err.println("Reader received bad code.");
+							System.exit(1);
 							break;
 					}
 
 
 				}
-			} catch (EOFException exc) {
+			} catch (EOFException e) {
 				listener.opponentQuit();
-				System.err.println("Opponent closed the socket.");
-			} catch (IOException exc) {
+			} catch (IOException e) {
 				System.err.println ("ServerProxy.Reader.run(): I/O error");
-				exc.printStackTrace (System.err);
+				e.printStackTrace (System.err);
 			} finally {
-				try { socket.close(); } catch (IOException exc) {}
+				try { socket.close(); }
+				catch (IOException e) {e.printStackTrace(System.err);}
 			}
 		}
 	}

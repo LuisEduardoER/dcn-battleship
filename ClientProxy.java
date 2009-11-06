@@ -43,25 +43,24 @@ public class ClientProxy extends Thread implements ServerListener {
 	public void run() {
 		try {
 			for (;;) {
-			// when you recieve an attack command, call attackSquare on the listener
-			// your partner executes attackSquare, and calls sendResult on us.
+			// when you recieve an attack command, call attackSquare
+			// your partner executes attackSquare, and calls sendResult on us
 				char opcode = input.readChar();
 				switch (opcode) {
 					case 'a':
-						System.out.println("Recieved attack code");
 						int x = input.readInt();
 						int y = input.readInt();
 						listener.attackSquare(x, y);
 						break;
 					case 'r':
 						boolean r = input.readBoolean();
-						System.out.println("Recieved result: " + r);
 						listener.sendResult(r);
 						break;
 				}
 			}
 		} catch (EOFException e) {
 		} catch (IOException e) {
-		} finally { try { socket.close(); } catch (IOException e) {}}
+		} finally { try { socket.close(); }
+					catch (IOException e) { e.printStackTrace(System.err); }}
 	}
 }
