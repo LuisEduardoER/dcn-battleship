@@ -22,7 +22,7 @@ public class BattleshipServer {
 			try {
 				new BattleshipServer(Integer.parseInt(args[0]));
 			} catch (NumberFormatException e) {
-				System.err.println("Incorrectly formatted port number");
+				System.err.println("Incorrectly formatted port number.");
 			}
 		} else {
 			System.err.println("Usage: java BattleshipServer <port>");
@@ -43,6 +43,6 @@ public class BattleshipServer {
 					newGuy.setListener(waiting.pop());
 				}
 			}
-		} catch (IOException e) {}
+		} catch (IOException e) { e.printStackTrace(System.err); }
 	}
 }

@@ -8,8 +8,19 @@ import java.io.IOException;
  */
 public interface ServerListener {
 
+	/*
+	 *	Sends a message to client attacking a position on the board.
+	 *
+	 *	@param	x	x coordinate of square to attack
+	 *	@param	y	y coordinate of square to attack
+	 */
 	public void attackSquare(int x, int y) throws IOException;
 
+	/*
+	 *	Sends the results of an attack back to the attacker.
+	 *
+	 *	@param	result	results from the attack. True if hit
+	 */
 	public void sendResult(boolean result) throws IOException;
 
 }

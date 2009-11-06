@@ -33,7 +33,6 @@ public class BattleshipClient {
 				model.processAttack(x,y);
 			}
 			public void processResult(boolean hit, int lastX, int lastY) {
-				System.out.println("CLIENT x = " + lastX + ", y = " + lastY);
 				model.processResult(hit, lastX, lastY);
 			}
 			public void updateGUI(char[][] myBoard, char[][] enemyBoard) {
